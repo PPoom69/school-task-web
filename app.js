@@ -97,11 +97,15 @@ function fetchFromSheet(grade, room, cacheKey) {
 }
 
 // เรียกงานมาแสดง
-return date.toLocaleDateString('th-TH',{
- day:'2-digit',
- month:'2-digit',
- year:'2-digit'
-});
+function formatDate(dateValue){
+  const date = new Date(dateValue);
+
+  return date.toLocaleDateString('th-TH',{
+    day:'2-digit',
+    month:'2-digit',
+    year:'2-digit'
+  });
+}
 function renderTasksByPeriod(rows) {
   taskList.innerHTML = '';
   taskList.classList.remove('empty');
@@ -142,6 +146,7 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
+
 
 
 
