@@ -10,7 +10,7 @@ const sheetMap = {
   m6: '1nW8v1EwVRUPzLxBvNF3ec50mr9zwqoQnI3YZSsCdpdY'
 };
 
-const CACHE_TTL = 0 * 60 * 1000; // แคช 5 นาที
+const CACHE_TTL = 5 * 60 * 1000; // แคช 5 นาที
 
 
 const gradeSelect = document.getElementById('grade');
@@ -146,6 +146,7 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
+
 
 
 
