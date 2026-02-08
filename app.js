@@ -10,7 +10,7 @@ const sheetMap = {
   m6: '1nW8v1EwVRUPzLxBvNF3ec50mr9zwqoQnI3YZSsCdpdY'
 };
 
-const CACHE_TTL = 5 * 60 * 1000; // แคช 5 นาที
+const CACHE_TTL = 1 * 60 * 1000; // แคช 5 นาที
 
 
 const gradeSelect = document.getElementById('grade');
@@ -97,6 +97,15 @@ function fetchFromSheet(grade, room, cacheKey) {
 }
 
 // เรียกงานมาแสดง
+function formatDate(dateValue){
+  const date = new Date(dateValue);
+
+  return date.toLocaleDateString('th-TH',{
+    day:'numeric',
+    month:'short',
+    year:'numeric'
+  });
+}
 function renderTasksByPeriod(rows) {
   taskList.innerHTML = '';
   taskList.classList.remove('empty');
@@ -120,7 +129,7 @@ function renderTasksByPeriod(rows) {
 
       taskList.innerHTML += `
         <div class="task-card">
-          <div class="task-meta">วันที่ ${date}</div>
+          <div class="task-meta">วันที่ ${formatDate(date)}</div>
           <div class="task-title">${taskName}</div>
           <div class="task-info">
             <span>กำหนดส่ง: ${deadline}</span>
@@ -137,4 +146,5 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
+
 
