@@ -10,7 +10,7 @@ const sheetMap = {
   m6: '1nW8v1EwVRUPzLxBvNF3ec50mr9zwqoQnI3YZSsCdpdY'
 };
 
-const CACHE_TTL = 1 * 60 * 1000; // แคช 5 นาที
+const CACHE_TTL = 0 * 60 * 1000; // แคช 5 นาที
 
 
 const gradeSelect = document.getElementById('grade');
@@ -97,15 +97,11 @@ function fetchFromSheet(grade, room, cacheKey) {
 }
 
 // เรียกงานมาแสดง
-function formatDate(dateValue){
-  const date = new Date(dateValue);
-
-  return date.toLocaleDateString('th-TH',{
-    day:'numeric',
-    month:'short',
-    year:'numeric'
-  });
-}
+return date.toLocaleDateString('th-TH',{
+ day:'2-digit',
+ month:'2-digit',
+ year:'2-digit'
+});
 function renderTasksByPeriod(rows) {
   taskList.innerHTML = '';
   taskList.classList.remove('empty');
@@ -146,5 +142,6 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
+
 
 
