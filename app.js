@@ -97,15 +97,6 @@ function fetchFromSheet(grade, room, cacheKey) {
 }
 
 // เรียกงานมาแสดง
-function formatDate(dateValue){
-  const date = new Date(dateValue);
-
-  return date.toLocaleDateString('th-TH',{
-    day:'2-digit',
-    month:'2-digit',
-    year:'2-digit'
-  });
-}
 function renderTasksByPeriod(rows) {
   taskList.innerHTML = '';
   taskList.classList.remove('empty');
@@ -113,7 +104,7 @@ function renderTasksByPeriod(rows) {
   let hasTask = false;
 
   rows.forEach(r => {
-    const date = r.c[0]?.v;
+    const date = r.c[0]?.f;
     if (!date) return;
 
     // ทุกช่อง +5
@@ -129,7 +120,7 @@ function renderTasksByPeriod(rows) {
 
       taskList.innerHTML += `
         <div class="task-card">
-          <div class="task-meta">วันที่ ${formatDate(date)}</div>
+          <div class="task-meta">วันที่ ${date}</div>
           <div class="task-title">${taskName}</div>
           <div class="task-info">
             <span>กำหนดส่ง: ${deadline}</span>
@@ -146,6 +137,7 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
+
 
 
 
