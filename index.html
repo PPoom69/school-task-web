@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ระบบติดตามงานนักเรียน</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Prompt&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-container">
+    <img src="logo-school.png" alt="โลโก้โรงเรียน" class="school-logo">
+    <div class="school-title">
+      <h1>ระบบติดตามงานนักเรียน</h1>
+      <span>โรงเรียนเสาไห้"วิมลวิทยานุกูล"</span>
+    </div>
+  </div>
+</header>
+
+  <div class="app">
+
+    <header class="header">
+      <h1>รายการภาระงาน</h1>
+      <p>เลือกชั้นเรียนและห้องเพื่อดูงานทั้งหมด</p>
+    </header>
+
+    <div class="controls">
+      <select id="grade">
+        <option value="">เลือกชั้น</option>
+        <option value="m1">ม.1</option>
+        <option value="m2">ม.2</option>
+        <option value="m3">ม.3</option>
+        <option value="m4">ม.4</option>
+        <option value="m5">ม.5</option>
+        <option value="m6">ม.6</option>
+      </select>
+
+
+      <select id="room">
+        <option value="">เลือกห้อง</option>
+      </select>
+    </div>
+
+    <h2 class="section-title">รายการงาน</h2>
+
+    <div id="taskList" class="tasks empty">
+      เลือกชั้นและห้องเพื่อแสดงงาน
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+
+<footer class="app-footer">
+  จัดทำโดยสภานักเรียนโรงเรียนเสาไห้"วิมลวิทยานุกูล"
+</footer>
+
+</body>
+</html>
+
+
+
+
+
