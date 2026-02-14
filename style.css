@@ -40,10 +40,11 @@ font-size:14px;
 
 /* SECTION */
 .section-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  flex-wrap: nowrap;   /* 🔥 เพิ่มบรรทัดนี้ */
 }
 .section-header h2{
 margin:0;
@@ -225,3 +226,4 @@ color:#555;
   color: #9ca3af;
   font-weight: 500;
 }
+
