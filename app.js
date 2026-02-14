@@ -193,8 +193,6 @@ function toggleRemain(el) {
 const sortBtn = document.getElementById("sortBtn");
 const sortMenu = document.getElementById("sortMenu");
 
-let currentSort = "deadline";
-
 sortBtn.addEventListener("click", () => {
   sortMenu.classList.toggle("show");
 });
@@ -208,6 +206,7 @@ sortMenu.querySelectorAll("div").forEach(item => {
     loadTasks(); // โหลดใหม่ตาม sort
   });
 });
+
 
 
 
