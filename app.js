@@ -205,7 +205,12 @@ function render(rows) {
 
       <details class="not-sent-box">
         <summary>ยังไม่ส่ง: ${task.notSent} คน</summary>
-        <div class="not-sent-list">${task.numbers}</div>
+        <div class="not-sent-list">
+  ${task.numbers
+    .split(",")
+    .map(n => `<span class="student-badge">${n.trim()}</span>`)
+    .join("")}
+</div>
       </details>
     `;
 
@@ -222,6 +227,7 @@ document.addEventListener("click", function (e) {
 
   status.classList.toggle("show");
 });
+
 
 
 
