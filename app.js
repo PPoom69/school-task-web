@@ -107,18 +107,15 @@ const sortValue = sortType.value;
 
 rows.sort((a, b) => {
 
-  if (sortValue === "created") {
-    const dateA = new Date(a.c[0]?.v);
-    const dateB = new Date(b.c[0]?.v);
-    return dateA - dateB;
-  }
-
-  if (sortValue === "deadline") {
-    const deadlineA = new Date(a.c[3]?.v);
-    const deadlineB = new Date(b.c[3]?.v);
-    return deadlineA - deadlineB;
-  }
-
+  if (currentSort === "deadline") {
+  rows.sort((a, b) => {
+    return new Date(a.c[3]?.v) - new Date(b.c[3]?.v);
+  });
+} else {
+  rows.sort((a, b) => {
+    return new Date(a.c[0]?.v) - new Date(b.c[0]?.v);
+  });
+}
 });
   sortType.addEventListener('change', loadTasks);
 
@@ -201,6 +198,24 @@ function toggleRemain(el) {
   });
 }
 
+const sortBtn = document.getElementById("sortBtn");
+const sortMenu = document.getElementById("sortMenu");
+
+let currentSort = "deadline";
+
+sortBtn.addEventListener("click", () => {
+  sortMenu.classList.toggle("show");
+});
+
+sortMenu.querySelectorAll("div").forEach(item => {
+  item.addEventListener("click", () => {
+    currentSort = item.dataset.sort;
+    sortBtn.innerText = item.innerText + " ▾";
+    sortMenu.classList.remove("show");
+
+    loadTasks(); // โหลดใหม่ตาม sort
+  });
+});
 
 
 
