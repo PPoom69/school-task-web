@@ -134,6 +134,18 @@ function fetchFromSheet(grade, room, cacheKey) {
 // ==========================
 // RENDER
 // ==========================
+function parseThaiDate(str) {
+  if (!str || str === "-") return new Date(0);
+
+  const parts = str.split("/");
+  if (parts.length !== 3) return new Date(str);
+
+  const day = parts[0].padStart(2, "0");
+  const month = parts[1].padStart(2, "0");
+  const year = parts[2];
+
+  return new Date(`${year}-${month}-${day}`);
+}
 
 function render(rows) {
 
@@ -161,10 +173,10 @@ function render(rows) {
   tasks = tasks.filter(t => t.title !== "-");
 
   tasks.sort((a,b)=>{
-    return currentSort === "deadline"
-      ? new Date(a.deadline) - new Date(b.deadline)
-      : new Date(a.date) - new Date(b.date);
-  });
+  return currentSort === "deadline"
+    ? parseThaiDate(a.deadline) - parseThaiDate(b.deadline)
+    : parseThaiDate(a.date) - parseThaiDate(b.date);
+});
 
   tasks.forEach(task => {
 
@@ -210,5 +222,6 @@ document.addEventListener("click", function (e) {
 
   status.classList.toggle("show");
 });
+
 
 
