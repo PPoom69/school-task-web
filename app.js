@@ -123,9 +123,13 @@ function renderTasksByPeriod(rows) {
       <div class="task-card">
 
         <div class="task-header">
-          <span>วันที่ ${date}</span>
-          <span>${status}</span>
-        </div>
+  <span>วันที่ ${date}</span>
+
+  <span class="status-badge"
+        onclick="showRemain('${remain}')">
+        ${status}
+  </span>
+</div>
 
         <div class="task-title">${taskName}</div>
         <div class="task-detail">${detail}</div>
@@ -151,3 +155,8 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
+function showRemain(text) {
+  if (!text || text === '-') return;
+  alert(text);
+}
+
