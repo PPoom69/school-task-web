@@ -1,6 +1,7 @@
-// ----------------------
+// ==========================
 // CONFIG
-// ----------------------
+// ==========================
+
 const sheetMap = {
   m1: '1Mngj7eQ0y2Eq3n0LROrdRDD1x6lDQQOvNeh8GOD68gg',
   m2: '14EdjUixaiDpaSvM7KV0gLWtDPWKyyfWMD12rFr94TnA',
@@ -12,161 +13,170 @@ const sheetMap = {
 
 const CACHE_TTL = 5 * 60 * 1000;
 
-// ----------------------
-const grade = document.getElementById("grade");
-const room = document.getElementById("room");
-const taskList = document.getElementById("taskList");
-const sortBtn = document.getElementById("sortBtn");
-const sortMenu = document.getElementById("sortMenu");
+// ==========================
+// DOM
+// ==========================
+
+const gradeSelect = document.getElementById("grade");
+const roomSelect  = document.getElementById("room");
+const taskList    = document.getElementById("taskList");
+const sortBtn     = document.getElementById("sortBtn");
+const sortMenu    = document.getElementById("sortMenu");
 
 let currentSort = "deadline";
 
-// ----------------------
-// ROOM GENERATOR
-// ----------------------
-const roomData = {
-  m1: Array.from({length:16}, (_,i)=>`1/${i+1}`),
-  m2: Array.from({length:15}, (_,i)=>`2/${i+1}`),
-  m3: Array.from({length:15}, (_,i)=>`3/${i+1}`),
-  m4: Array.from({length:10}, (_,i)=>`4/${i+1}`),
-  m5: Array.from({length:10}, (_,i)=>`5/${i+1}`),
-  m6: Array.from({length:10}, (_,i)=>`6/${i+1}`)
-};
+// ==========================
+// GRADE CHANGE
+// ==========================
 
-// ----------------------
-// CHANGE GRADE
-// ----------------------
-grade.addEventListener("change",()=>{
-  room.innerHTML='<option value="">เลือกห้อง</option>';
-  taskList.innerHTML="เลือกชั้นและห้องเพื่อแสดงงาน";
+gradeSelect.addEventListener("change", () => {
+
+  roomSelect.innerHTML = '<option value="">เลือกห้อง</option>';
+  taskList.innerHTML = "เลือกชั้นและห้องเพื่อแสดงงาน";
   taskList.classList.add("empty");
 
-  if(!roomData[grade.value]) return;
+  const grade = gradeSelect.value;
+  if (!grade) return;
 
-  roomData[grade.value].forEach(r=>{
-    const opt=document.createElement("option");
-    opt.value=r;
-    opt.textContent=r;
-    room.appendChild(opt);
-  });
-});
+  const gradeNum = grade.replace("m", "");
 
-room.addEventListener("change", loadTasks);
+  const maxRoom =
+    grade === "m1" ? 16 :
+    grade === "m2" ? 15 :
+    grade === "m3" ? 15 : 10;
 
-// ----------------------
-// SORT
-// ----------------------
-sortBtn.addEventListener("click",()=>{
-  sortMenu.classList.toggle("show");
-});
-
-sortMenu.addEventListener("click",(e)=>{
-  if(e.target.dataset.sort){
-    currentSort=e.target.dataset.sort;
-    sortBtn.textContent=e.target.textContent+" ▾";
-    sortMenu.classList.remove("show");
-    loadTasks();
+  for (let i = 1; i <= maxRoom; i++) {
+    const opt = document.createElement("option");
+    opt.value = `${gradeNum}/${i}`;
+    opt.textContent = `${gradeNum}/${i}`;
+    roomSelect.appendChild(opt);
   }
 });
 
-// ----------------------
-// LOAD TASKS
-// ----------------------
-function loadTasks(){
-  if(!grade.value || !room.value) return;
+roomSelect.addEventListener("change", loadTasks);
 
-  const cacheKey = `tasks_${grade.value}_${room.value}`;
+// ==========================
+// SORT
+// ==========================
+
+sortBtn.addEventListener("click", () => {
+  sortMenu.classList.toggle("show");
+});
+
+sortMenu.addEventListener("click", (e) => {
+  if (!e.target.dataset.sort) return;
+
+  currentSort = e.target.dataset.sort;
+  sortBtn.textContent = e.target.textContent + " ▾";
+  sortMenu.classList.remove("show");
+  loadTasks();
+});
+
+// ==========================
+// LOAD TASKS
+// ==========================
+
+function loadTasks() {
+
+  const grade = gradeSelect.value;
+  const room  = roomSelect.value;
+
+  if (!grade || !room) return;
+
+  const cacheKey = `tasks_${grade}_${room}`;
   const cached = localStorage.getItem(cacheKey);
 
-  if(cached){
+  if (cached) {
     const data = JSON.parse(cached);
-    if(Date.now() - data.time < CACHE_TTL){
+    if (Date.now() - data.time < CACHE_TTL) {
       render(data.rows);
       return;
     }
   }
 
-  fetchFromSheet(grade.value, room.value, cacheKey);
+  fetchFromSheet(grade, room, cacheKey);
 }
 
-// ----------------------
-// FETCH FROM SHEET
-// ----------------------
-function fetchFromSheet(gradeVal, roomVal, cacheKey){
+// ==========================
+// FETCH SHEET
+// ==========================
+
+function fetchFromSheet(grade, room, cacheKey) {
 
   taskList.classList.add("empty");
-  taskList.innerHTML="กำลังโหลดข้อมูล...";
+  taskList.innerHTML = "กำลังโหลดข้อมูล...";
 
-  const url = `https://docs.google.com/spreadsheets/d/${sheetMap[gradeVal]}/gviz/tq?tqx=out:json&sheet=${roomVal}`;
+  const url = `https://docs.google.com/spreadsheets/d/${sheetMap[grade]}/gviz/tq?tqx=out:json&sheet=${room}`;
 
   fetch(url)
-  .then(res=>res.text())
-  .then(text=>{
-    const json = JSON.parse(text.substring(47).slice(0,-2));
-    const rows = json.table.rows || [];
+    .then(res => res.text())
+    .then(text => {
 
-    localStorage.setItem(cacheKey, JSON.stringify({
-      time: Date.now(),
-      rows
-    }));
+      const json = JSON.parse(text.substring(47).slice(0, -2));
+      const rows = json.table.rows || [];
 
-    render(rows);
-  })
-  .catch(()=>{
-    taskList.innerHTML="ไม่สามารถโหลดข้อมูลได้";
-  });
+      localStorage.setItem(cacheKey, JSON.stringify({
+        time: Date.now(),
+        rows
+      }));
+
+      render(rows);
+    })
+    .catch(() => {
+      taskList.innerHTML = "ไม่สามารถโหลดข้อมูลได้";
+      taskList.classList.add("empty");
+    });
 }
 
-// ----------------------
+// ==========================
 // RENDER
-// ----------------------
-function render(rows){
+// ==========================
 
-  function render(rows){
+function render(rows) {
 
-  taskList.innerHTML="";
+  taskList.innerHTML = "";
   taskList.classList.remove("empty");
 
-  if(rows.length===0){
-    taskList.innerHTML="ไม่มีงาน";
+  if (rows.length === 0) {
+    taskList.innerHTML = "ยังไม่มีงานในห้องนี้";
     taskList.classList.add("empty");
     return;
   }
 
-  let tasks = rows.map(r=>({
+  let tasks = rows.map(r => ({
     date:      r.c[0]?.f || r.c[0]?.v || "-",
     title:     r.c[1]?.v || "-",
     detail:    r.c[2]?.v || "-",
     deadline:  r.c[3]?.f || r.c[3]?.v || "-",
-    status:    r.c[4]?.v || "-",        // ✅ ดึงสถานะจากชีท
-    remain:    r.c[5]?.v || "",         // ✅ ดึงเหลือเวลา/เลยมา
+    status:    r.c[4]?.v || "",
+    remain:    r.c[5]?.v || "",
     submitted: r.c[6]?.v ?? 0,
     notSent:   r.c[7]?.v ?? 0,
     numbers:   r.c[8]?.v || "-"
   }));
 
+  tasks = tasks.filter(t => t.title !== "-");
+
   tasks.sort((a,b)=>{
-    return currentSort==="deadline"
-      ? new Date(a.deadline)-new Date(b.deadline)
-      : new Date(a.date)-new Date(b.date);
+    return currentSort === "deadline"
+      ? new Date(a.deadline) - new Date(b.deadline)
+      : new Date(a.date) - new Date(b.date);
   });
 
-  tasks.forEach(task=>{
+  tasks.forEach(task => {
 
     const isLate = task.status.includes("เกิน");
 
-    const card=document.createElement("div");
-    card.className="task-card";
+    const card = document.createElement("div");
+    card.className = "task-card";
 
-    card.innerHTML=`
+    card.innerHTML = `
       <div class="task-header">
         <span>วันที่ ${task.date}</span>
 
-        <div class="status ${isLate?'status-late':'status-ok'}">
+        <div class="status ${isLate ? 'status-late' : 'status-ok'}">
           ${task.status}
-          <span class="status-extra">
-            ${task.remain}
-          </span>
+          <span class="status-extra">${task.remain}</span>
         </div>
       </div>
 
@@ -180,16 +190,10 @@ function render(rows){
 
       <details class="not-sent-box">
         <summary>ยังไม่ส่ง: ${task.notSent} คน</summary>
-        <div class="not-sent-list">
-          ${task.numbers}
-        </div>
+        <div class="not-sent-list">${task.numbers}</div>
       </details>
     `;
 
     taskList.appendChild(card);
   });
 }
-    taskList.appendChild(card);
-  });
-}
-
