@@ -1,5 +1,4 @@
 // config
-const sortType = document.getElementById('sortType');
 // รหัส Google Sheets แยกตามชั้นค้าบบ
 const sheetMap = {
   m1: '1Mngj7eQ0y2Eq3n0LROrdRDD1x6lDQQOvNeh8GOD68gg',
@@ -207,10 +206,6 @@ sortMenu.querySelectorAll("div").forEach(item => {
 
     loadTasks(); // โหลดใหม่ตาม sort
   });
-});
-sortType.addEventListener("change", () => {
-  currentSort = sortType.value;
-  loadTasks();
 });
 
 
