@@ -145,8 +145,15 @@ select {
 .task-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 8px;
 }
+
+.task-date {
+  font-size: 14px;
+  color: #6b7280;
+}
+
 .task-title {
   font-size: 16px;
   font-weight: 600;
@@ -170,9 +177,11 @@ select {
 /* BADGE */
 .status-badge {
   font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 999px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
-
 .status-ok {
   background: #dcfce7;
   color: #166534;
@@ -226,4 +235,5 @@ select {
   padding: 6px 10px;
   border-radius: 999px;
 }
+
 
