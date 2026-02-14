@@ -102,23 +102,15 @@ function renderTasksByPeriod(rows) {
   taskList.classList.remove('empty');
   
   let hasTask = false;
-  
-const sortValue = sortType.value;
-
 rows.sort((a, b) => {
 
   if (currentSort === "deadline") {
-  rows.sort((a, b) => {
     return new Date(a.c[3]?.v) - new Date(b.c[3]?.v);
-  });
-} else {
-  rows.sort((a, b) => {
+  } else {
     return new Date(a.c[0]?.v) - new Date(b.c[0]?.v);
-  });
-}
-});
-  sortType.addEventListener('change', loadTasks);
+  }
 
+});
   rows.forEach(r => {
 
     const date      = r.c[0]?.f || r.c[0]?.v || '-';
@@ -215,6 +207,10 @@ sortMenu.querySelectorAll("div").forEach(item => {
 
     loadTasks(); // โหลดใหม่ตาม sort
   });
+});
+sortType.addEventListener("change", () => {
+  currentSort = sortType.value;
+  loadTasks();
 });
 
 
