@@ -142,11 +142,9 @@ function renderTasksByPeriod(rows) {
         <div class="task-header">
           <span>วันที่ ${date}</span>
 
-          <span class="status-badge"
-                data-remain="${remain}"
-                onclick="toggleRemain(this)">
-            ${status}
-          </span>
+          <span class="status-badge ${status === 'เกินกำหนดส่ง' ? 'status-late' : 'status-ok'}">
+  ${status} ${remain ? remain : ''}
+</span>
         </div>
 
         <div class="task-title">${taskName}</div>
@@ -223,3 +221,4 @@ sortMenu.querySelectorAll("div").forEach(item => {
   });
 
 });
+
