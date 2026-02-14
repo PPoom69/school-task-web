@@ -126,9 +126,10 @@ function renderTasksByPeriod(rows) {
   <span>วันที่ ${date}</span>
 
   <span class="status-badge"
-        onclick="showRemain('${remain}')">
-        ${status}
-  </span>
+      data-remain="${remain}"
+      onclick="toggleRemain(this)">
+      ${status}
+</span>
 </div>
 
         <div class="task-title">${taskName}</div>
@@ -155,8 +156,29 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
-function showRemain(text) {
+function toggleRemain(el) {
+
+  const oldPopup = document.querySelector('.remain-popup');
+  if (oldPopup) oldPopup.remove();
+
+  const text = el.dataset.remain;
   if (!text || text === '-') return;
-  alert(text);
+
+  const popup = document.createElement('div');
+  popup.className = 'remain-popup';
+  popup.innerText = text;
+
+  el.parentElement.appendChild(popup);
+
+  setTimeout(() => {
+    popup.classList.add('show');
+  }, 10);
+
+  document.addEventListener('click', function handler(e) {
+    if (!popup.contains(e.target) && e.target !== el) {
+      popup.remove();
+      document.removeEventListener('click', handler);
+    }
+  });
 }
 
