@@ -1,224 +1,237 @@
-// config
-const sheetMap = {
-  m1: '1Mngj7eQ0y2Eq3n0LROrdRDD1x6lDQQOvNeh8GOD68gg',
-  m2: '14EdjUixaiDpaSvM7KV0gLWtDPWKyyfWMD12rFr94TnA',
-  m3: '1bZ7VXP3QKUEUnmaUjNmnq5IuIzZXMI3mmgRQ1ZQbOcA',
-  m4: '15QijGegnARQ9Rhv1q41_VxhCCKG6Day0YglHuNfMGzs',
-  m5: '1dAy9GQlaWt2RFiBjIX1pP-YWiaNW4vTshviOBo2bWpQ',
-  m6: '1nW8v1EwVRUPzLxBvNF3ec50mr9zwqoQnI3YZSsCdpdY'
-};
+* {
+  box-sizing: border-box;
+}
 
-const CACHE_TTL = 5 * 60 * 1000;
-let currentSort = "deadline";
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Prompt', sans-serif;
+  background: linear-gradient(180deg, #f9fafb, #eef2f7);
+  color: #111;
+}
 
-const gradeSelect = document.getElementById('grade');
-const roomSelect  = document.getElementById('room');
-const taskList    = document.getElementById('taskList');
+/* HEADER */
 
+.app-header {
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.7);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 16px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-// เปลี่ยนชั้น
-gradeSelect.addEventListener('change', () => {
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-  roomSelect.innerHTML = '<option value="">เลือกห้อง</option>';
-  taskList.classList.add('empty');
-  taskList.innerHTML = 'เลือกชั้นและห้องเพื่อแสดงงาน';
+.school-logo {
+  width: 38px;
+}
 
-  const grade = gradeSelect.value;
-  if (!grade) return;
+.app-header h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
 
-  const gradeNum = grade.replace('m', '');
+.app-header span {
+  font-size: 12px;
+  color: #666;
+}
 
-  const maxRoom =
-    grade === 'm1' ? 16 :
-    grade === 'm2' ? 15 :
-    grade === 'm3' ? 15 : 10;
+/* MAIN */
 
-  for (let i = 1; i <= maxRoom; i++) {
-    roomSelect.innerHTML += `
-      <option value="${gradeNum}/${i}">
-        ${gradeNum}/${i}
-      </option>
-    `;
+.app {
+  max-width: 880px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+/* CONTROLS */
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+select {
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  font-size: 14px;
+  outline: none;
+}
+
+/* SECTION HEADER */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* SORT BUTTON */
+
+.sort-wrapper {
+  position: relative;
+}
+
+.sort-btn {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+}
+
+.sort-menu {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  display: none;
+  overflow: hidden;
+  min-width: 140px;
+}
+
+.sort-menu div {
+  padding: 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.sort-menu div:hover {
+  background: #f3f4f6;
+}
+
+.sort-menu.show {
+  display: block;
+}
+
+/* TASK GRID */
+
+.tasks {
+  display: grid;
+  gap: 18px;
+}
+
+/* TASK CARD */
+
+.task-card {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(20px);
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.08),
+    inset 0 1px 1px rgba(255,255,255,0.6);
+  transition: 0.25s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.12),
+    inset 0 1px 1px rgba(255,255,255,0.8);
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.task-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.task-detail {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.task-info {
+  font-size: 13px;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* STATUS BADGE */
+
+.status-badge {
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.status-ok {
+  background: rgba(52,199,89,0.15);
+  color: #1f7a3f;
+}
+
+.status-late {
+  background: rgba(255,59,48,0.15);
+  color: #a11;
+}
+
+/* EMPTY STATE */
+
+.tasks.empty {
+  text-align: center;
+  color: #9ca3af;
+  padding: 50px 0;
+}
+
+/* FOOTER */
+
+.app-footer {
+  margin-top: 40px;
+  padding: 16px;
+  text-align: center;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 640px) {
+  .controls {
+    grid-template-columns: 1fr;
   }
-});
-
-roomSelect.addEventListener('change', loadTasks);
-
-
-// โหลดงาน
-function loadTasks() {
-
-  const grade = gradeSelect.value;
-  const room  = roomSelect.value;
-  if (!grade || !room) return;
-
-  const cacheKey = `tasks_${grade}_${room}`;
-  const cached = localStorage.getItem(cacheKey);
-
-  if (cached) {
-    const data = JSON.parse(cached);
-    if (Date.now() - data.time < CACHE_TTL) {
-      renderTasksByPeriod(data.rows);
-      return;
-    }
-  }
-
-  fetchFromSheet(grade, room, cacheKey);
 }
 
-
-// ดึงชีท
-function fetchFromSheet(grade, room, cacheKey) {
-
-  taskList.classList.add('empty');
-  taskList.innerHTML = 'กำลังโหลดข้อมูล...';
-
-  const url = `https://docs.google.com/spreadsheets/d/${sheetMap[grade]}/gviz/tq?tqx=out:json&sheet=${room}`;
-
-  fetch(url)
-    .then(res => res.text())
-    .then(text => {
-
-      const json = JSON.parse(text.substring(47).slice(0, -2));
-      const rows = json.table.rows || [];
-
-      localStorage.setItem(
-        cacheKey,
-        JSON.stringify({
-          time: Date.now(),
-          rows
-        })
-      );
-
-      renderTasksByPeriod(rows);
-    })
-    .catch(() => {
-      taskList.classList.add('empty');
-      taskList.innerHTML = 'ไม่สามารถโหลดข้อมูลได้';
-    });
-}
-
-
-// แสดงงาน
-function renderTasksByPeriod(rows) {
-
-  taskList.innerHTML = '';
-  taskList.classList.remove('empty');
-
-  let hasTask = false;
-
-  rows.sort((a, b) => {
-
-    const deadlineA = new Date(a.c[3]?.v);
-    const deadlineB = new Date(b.c[3]?.v);
-
-    const dateA = new Date(a.c[0]?.v);
-    const dateB = new Date(b.c[0]?.v);
-
-    return currentSort === "deadline"
-      ? deadlineA - deadlineB
-      : dateA - dateB;
-  });
-
-  rows.forEach(r => {
-
-    const date      = r.c[0]?.f || r.c[0]?.v || '-';
-    const taskName  = r.c[1]?.v || '-';
-    const detail    = r.c[2]?.v || '-';
-    const deadline  = r.c[3]?.f || r.c[3]?.v || '-';
-    const status    = r.c[4]?.v || '';
-    const remain    = r.c[5]?.v || '';
-    const sent      = r.c[6]?.v ?? 0;
-    const notSent   = r.c[7]?.v ?? 0;
-    const numbers   = r.c[8]?.v || '-';
-
-    if (!taskName || taskName === '-') return;
-
-    hasTask = true;
-
-    taskList.innerHTML += `
-      <div class="task-card">
-
-        <div class="task-header">
-          <span>วันที่ ${date}</span>
-
-          <span class="status-badge ${status === 'เกินกำหนดส่ง' ? 'status-late' : 'status-ok'}">
-  ${status} ${remain ? remain : ''}
-</span>
-        </div>
-
-        <div class="task-title">${taskName}</div>
-        <div class="task-detail">${detail}</div>
-
-        <div class="task-info">
-          <span>กำหนดส่ง: ${deadline}</span>
-          <span>ส่งแล้ว: ${sent} คน</span>
-        </div>
-
-        <details class="not-sent-box">
-          <summary>ยังไม่ส่ง: ${notSent} คน</summary>
-          <div class="not-sent-list">
-            ${numbers}
-          </div>
-        </details>
-
-      </div>
-    `;
-  });
-
-  if (!hasTask) {
-    taskList.classList.add('empty');
-    taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
+@media (min-width: 1024px) {
+  .tasks {
+    grid-template-columns: 1fr 1fr;
   }
 }
-
-
-// popup เหลือกี่วัน
-function toggleRemain(el) {
-
-  const oldPopup = document.querySelector('.remain-popup');
-  if (oldPopup) oldPopup.remove();
-
-  const text = el.dataset.remain;
-  if (!text || text === '-') return;
-
-  const popup = document.createElement('div');
-  popup.className = 'remain-popup';
-  popup.innerText = text;
-
-  el.appendChild(popup);
-
-  setTimeout(() => {
-    popup.classList.add('show');
-  }, 10);
-
-  document.addEventListener('click', function handler(e) {
-    if (!popup.contains(e.target) && e.target !== el) {
-      popup.remove();
-      document.removeEventListener('click', handler);
-    }
-  });
-}
-
-
-// SORT
-const sortBtn = document.getElementById("sortBtn");
-const sortMenu = document.getElementById("sortMenu");
-
-sortBtn.addEventListener("click", () => {
-  sortMenu.classList.toggle("show");
-});
-
-sortMenu.querySelectorAll("div").forEach(item => {
-
-  item.addEventListener("click", () => {
-
-    currentSort = item.dataset.sort;
-    sortBtn.innerText = item.innerText + " ▾";
-    sortMenu.classList.remove("show");
-
-    loadTasks(); // เรียงใหม่
-  });
-
-});
-
