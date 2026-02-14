@@ -166,11 +166,10 @@ select:focus {
   gap: 10px;
 }
 .task-date {
-  font-size: 13px;     /* ลดขนาดวันที่ลงนิด */
-  color: #6b7280;
-  flex-shrink: 0;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #9ca3af;
 }
-
 /* TITLE + DETAIL */
 .task-title {
   font-size: 16px;
@@ -259,3 +258,4 @@ select:focus {
     font-size: 12px;
   }
 }
+
