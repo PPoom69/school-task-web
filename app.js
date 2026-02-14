@@ -11,6 +11,7 @@ const sheetMap = {
 
 const CACHE_TTL = 5 * 60 * 1000; // แคช 5 นาที
 
+let currentSort = "deadline";
 
 const gradeSelect = document.getElementById('grade');
 const roomSelect  = document.getElementById('room');
@@ -207,6 +208,7 @@ sortMenu.querySelectorAll("div").forEach(item => {
     loadTasks(); // โหลดใหม่ตาม sort
   });
 });
+
 
 
 
