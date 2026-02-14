@@ -7,6 +7,7 @@ body {
   font-family: 'Prompt', sans-serif;
   background: #f3f4f6;
   color: #111827;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* HEADER */
@@ -60,6 +61,13 @@ select {
   border: 1px solid #e5e7eb;
   background: white;
   font-size: 14px;
+  transition: 0.2s ease;
+}
+
+select:focus {
+  outline: none;
+  border-color: #c7d2fe;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
 }
 
 /* SECTION HEADER */
@@ -83,10 +91,15 @@ select {
 .sort-btn {
   background: #e5e7eb;
   border: none;
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 999px;
   font-size: 13px;
   cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.sort-btn:hover {
+  background: #d1d5db;
 }
 
 .sort-menu {
@@ -94,17 +107,19 @@ select {
   right: 0;
   top: 110%;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  border-radius: 14px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
   display: none;
   overflow: hidden;
-  min-width: 130px;
+  min-width: 150px;
+  animation: fadeDown 0.2s ease;
 }
 
 .sort-menu div {
-  padding: 10px;
+  padding: 10px 14px;
   font-size: 13px;
   cursor: pointer;
+  transition: 0.15s ease;
 }
 
 .sort-menu div:hover {
@@ -130,29 +145,35 @@ select {
 /* TASK CARD */
 .task-card {
   background: white;
-  border-radius: 14px;
-  padding: 16px;
+  border-radius: 18px;
+  padding: 18px;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: 0.2s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: fadeUp 0.3s ease;
 }
 
 .task-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.06);
 }
 
+/* HEADER INSIDE CARD */
 .task-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
+  gap: 12px;
 }
 
 .task-date {
   font-size: 14px;
   color: #6b7280;
+  flex-shrink: 0;
 }
 
+/* TITLE + DETAIL */
 .task-title {
   font-size: 16px;
   font-weight: 600;
@@ -173,15 +194,14 @@ select {
   gap: 3px;
 }
 
-/* BADGE */
+/* STATUS TEXT (NO GREY BOX) */
 .status-badge {
   font-size: 14px;
   font-weight: 500;
-  background: none;
-  padding: 0;
-  border-radius: 0;
   white-space: nowrap;
+  flex-shrink: 0;
 }
+
 .status-ok {
   color: #16a34a;
 }
@@ -212,10 +232,25 @@ select {
   }
 }
 
-.task-header span:first-child {
-  white-space: nowrap;   /* ห้ามวันที่ตกบรรทัด */
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-
-
-
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
