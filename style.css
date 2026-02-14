@@ -4,18 +4,16 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Prompt', sans-serif;
-  background: linear-gradient(180deg, #f9fafb, #eef2f7);
-  color: #111;
+  font-family: 'Prompt', sans-serif;
+  background: #f3f4f6;
+  color: #111827;
 }
 
 /* HEADER */
-
 .app-header {
-  backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.7);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  padding: 16px 20px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 14px 20px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -28,50 +26,43 @@ body {
 }
 
 .school-logo {
-  width: 38px;
+  width: 42px;
 }
 
 .app-header h1 {
   margin: 0;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
 }
 
 .app-header span {
   font-size: 12px;
-  color: #666;
+  color: #6b7280;
 }
 
 /* MAIN */
-
 .app {
-  max-width: 880px;
+  max-width: 900px;
   margin: 30px auto;
   padding: 20px;
 }
 
 /* CONTROLS */
-
 .controls {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 select {
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: white;
   font-size: 14px;
-  outline: none;
 }
 
 /* SECTION HEADER */
-
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -82,41 +73,36 @@ select {
 .section-header h2 {
   margin: 0;
   font-size: 18px;
-  font-weight: 600;
 }
 
 /* SORT BUTTON */
-
 .sort-wrapper {
   position: relative;
 }
 
 .sort-btn {
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(10px);
+  background: #e5e7eb;
   border: none;
-  padding: 6px 14px;
-  border-radius: 999px;
+  padding: 6px 12px;
+  border-radius: 20px;
   font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
 }
 
 .sort-menu {
   position: absolute;
   right: 0;
   top: 110%;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
   display: none;
   overflow: hidden;
-  min-width: 140px;
+  min-width: 130px;
 }
 
 .sort-menu div {
-  padding: 12px;
+  padding: 10px;
   font-size: 13px;
   cursor: pointer;
 }
@@ -129,52 +115,51 @@ select {
   display: block;
 }
 
-/* TASK GRID */
-
+/* TASKS */
 .tasks {
   display: grid;
-  gap: 18px;
+  gap: 16px;
+}
+
+.tasks.empty {
+  text-align: center;
+  color: #9ca3af;
+  padding: 40px 0;
 }
 
 /* TASK CARD */
-
 .task-card {
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(20px);
-  border-radius: 22px;
-  padding: 20px;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.08),
-    inset 0 1px 1px rgba(255,255,255,0.6);
-  transition: 0.25s ease;
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: 0.2s ease;
 }
 
 .task-card:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 20px 50px rgba(0,0,0,0.12),
-    inset 0 1px 1px rgba(255,255,255,0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
 }
 
 .task-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   font-size: 13px;
   color: #6b7280;
 }
 
 .task-title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 .task-detail {
-  font-size: 14px;
+  font-size: 13px;
   color: #555;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .task-info {
@@ -182,38 +167,29 @@ select {
   color: #444;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
-/* STATUS BADGE */
-
+/* BADGE */
 .status-badge {
   font-size: 11px;
-  padding: 5px 12px;
+  padding: 4px 10px;
   border-radius: 999px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .status-ok {
-  background: rgba(52,199,89,0.15);
-  color: #1f7a3f;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .status-late {
-  background: rgba(255,59,48,0.15);
-  color: #a11;
-}
-
-/* EMPTY STATE */
-
-.tasks.empty {
-  text-align: center;
-  color: #9ca3af;
-  padding: 50px 0;
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 /* FOOTER */
-
 .app-footer {
   margin-top: 40px;
   padding: 16px;
@@ -223,7 +199,6 @@ select {
 }
 
 /* RESPONSIVE */
-
 @media (max-width: 640px) {
   .controls {
     grid-template-columns: 1fr;
