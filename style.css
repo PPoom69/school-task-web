@@ -179,3 +179,36 @@ margin-top:6px;
 font-size:12px;
 color:#555;
 }
+.not-sent-box {
+  margin-top: 10px;
+}
+
+.not-sent-list {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+  gap: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.student-badge {
+  background: #f3f4f6;
+  border-radius: 999px;
+  padding: 6px 0;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.student-badge:hover {
+  background: #e5e7eb;
+  transform: scale(1.05);
+}
+
+.status-late ~ .not-sent-box .student-badge {
+  background: #fee2e2;
+  color: #b91c1c;
+}
