@@ -145,10 +145,8 @@ select {
 .task-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
 }
-
 .task-title {
   font-size: 16px;
   font-weight: 600;
@@ -172,9 +170,7 @@ select {
 /* BADGE */
 .status-badge {
   font-size: 13px;
-  text-align: right;
-  max-width: 60%;
-  word-break: break-word;
+  white-space: nowrap;
 }
 
 .status-ok {
@@ -230,3 +226,4 @@ select {
   padding: 6px 10px;
   border-radius: 999px;
 }
+
