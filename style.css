@@ -177,7 +177,7 @@ select {
 .status-badge {
   font-size: 14px;
   font-weight: 500;
-  background: transparent;
+  background: none;
   padding: 0;
   border-radius: 0;
   white-space: nowrap;
@@ -212,27 +212,10 @@ select {
   }
 }
 
-.task-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .task-header span:first-child {
   white-space: nowrap;   /* ห้ามวันที่ตกบรรทัด */
 }
 
-.status-badge {
-  margin-left: auto;     /* ดันไปขวา */
-  white-space: nowrap;   /* ไม่ให้มันแตกบรรทัด */
-  font-size: 13px;       /* ลดขนาดนิดนึง */
-}
-
-.status-badge {
-  background: rgba(0,0,0,0.05);
-  padding: 6px 10px;
-  border-radius: 999px;
-}
 
 
 
