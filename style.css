@@ -166,9 +166,10 @@ select:focus {
   gap: 10px;
 }
 .task-date {
-  font-size: 9.5px;
+  font-size: 11px;
   font-weight: 500;
   color: #9ca3af;
+  letter-spacing: 0.2px;
 }
 /* TITLE + DETAIL */
 .task-title {
@@ -249,5 +250,6 @@ select:focus {
     transform: translateY(0);
   }
 }
+
 
 
