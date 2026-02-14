@@ -170,10 +170,10 @@ select:focus {
 
 /* วันที่ */
 .task-date {
-  font-size: 11px;
-  color: #9ca3af;
+  font-size: 13px;
+  color: #6b7280;
+  opacity: 0.9;
   white-space: nowrap;
-  flex-shrink: 0;           /* ❗ ห้ามโดนบีบ */
 }
 /* สถานะ */
 .status-badge {
@@ -260,6 +260,7 @@ select:focus {
     transform: translateY(0);
   }
 }
+
 
 
 
