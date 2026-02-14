@@ -163,12 +163,10 @@ select:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-  gap: 12px;
+  gap: 10px;
 }
-
 .task-date {
-  font-size: 14px;
+  font-size: 13px;     /* ลดขนาดวันที่ลงนิด */
   color: #6b7280;
   flex-shrink: 0;
 }
@@ -196,12 +194,10 @@ select:focus {
 
 /* STATUS TEXT (NO GREY BOX) */
 .status-badge {
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
+  font-size: 13px;     /* ลดขนาดสถานะ */
+  white-space: nowrap; /* ห้ามตกบรรทัด */
   flex-shrink: 0;
 }
-
 .status-ok {
   color: #16a34a;
 }
@@ -252,5 +248,14 @@ select:focus {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+@media (max-width: 480px) {
+  .task-date {
+    font-size: 12px;
+  }
+
+  .status-badge {
+    font-size: 12px;
   }
 }
