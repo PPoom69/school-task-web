@@ -40,10 +40,25 @@ gradeSelect.addEventListener("change", () => {
 
   const gradeNum = grade.replace("m", "");
 
-  const maxRoom =
-    grade === "m1" ? 16 :
-    grade === "m2" ? 15 :
-    grade === "m3" ? 15 : 10;
+  const roomConfig = {
+  m1: 16,
+  m2: 15,
+  m3: 15,
+  m4: 10,
+  m5: 10,
+  m6: 10
+};
+
+gradeSelect.addEventListener("change", () => {
+  roomSelect.innerHTML = '<option value="">เลือกห้อง</option>';
+  taskList.classList.add("empty");
+  taskList.innerHTML = "เลือกชั้นและห้องเพื่อแสดงงาน";
+
+  const grade = gradeSelect.value;
+  if (!grade) return;
+
+  const gradeNum = grade.replace("m", "");
+  const maxRoom = roomConfig[grade];
 
   for (let i = 1; i <= maxRoom; i++) {
     const opt = document.createElement("option");
@@ -52,7 +67,7 @@ gradeSelect.addEventListener("change", () => {
     roomSelect.appendChild(opt);
   }
 });
-
+  
 roomSelect.addEventListener("change", loadTasks);
 
 // ==========================
@@ -197,3 +212,4 @@ function render(rows) {
     taskList.appendChild(card);
   });
 }
+
