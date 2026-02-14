@@ -104,15 +104,19 @@ function renderTasksByPeriod(rows) {
   let hasTask = false;
 
   rows.forEach(r => {
-    const date = r.c[0]?.f;
+    const date = r.c[0]?.v;
     if (!date) return;
 
-    // ทุกช่อง +5
-    for (let i = 1; i < r.c.length; i += 5) {
+    for (let i = 1; i < r.c.length; i += 7) {
+
       const taskName = r.c[i]?.v;
-      const deadline = r.c[i + 2]?.f || r.c[i + 1]?.v || '-';
-      const sent     = r.c[i + 3]?.v ?? 0;
-      const notSent  = r.c[i + 4]?.v ?? 0;
+      const detail   = r.c[i + 1]?.v || '-';
+      const deadline = r.c[i + 2]?.f || r.c[i + 2]?.v || '-';
+      const status   = r.c[i + 3]?.v || '';
+      const remain   = r.c[i + 4]?.v || '';
+      const sent     = r.c[i + 5]?.v ?? 0;
+      const notSent  = r.c[i + 6]?.v ?? 0;
+      const notSentNumbers = r.c[i + 7]?.v || '-';
 
       if (!taskName || taskName === 'ไม่มีงาน') continue;
 
@@ -120,13 +124,27 @@ function renderTasksByPeriod(rows) {
 
       taskList.innerHTML += `
         <div class="task-card">
-          <div class="task-meta">วันที่ ${date}</div>
+
+          <div class="task-header">
+            <span class="task-date">วันที่ ${date}</span>
+            <span class="task-status">${status}</span>
+          </div>
+
           <div class="task-title">${taskName}</div>
+          <div class="task-detail">${detail}</div>
+
           <div class="task-info">
             <span>กำหนดส่ง: ${deadline}</span>
             <span>ส่งแล้ว: ${sent} คน</span>
-            <span>ยังไม่ส่ง: ${notSent} คน</span>
           </div>
+
+          <details class="not-sent-box">
+            <summary>ยังไม่ส่ง: ${notSent} คน</summary>
+            <div class="not-sent-list">
+              ${notSentNumbers}
+            </div>
+          </details>
+
         </div>
       `;
     }
@@ -137,6 +155,13 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
+
+  if (!hasTask) {
+    taskList.classList.add('empty');
+    taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
+  }
+}
+
 
 
 
