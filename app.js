@@ -167,7 +167,7 @@ function render(rows) {
     remain:    r.c[5]?.v || "",
     submitted: r.c[6]?.v ?? 0,
     notSent:   r.c[7]?.v ?? 0,
-    numbers:   r.c[8]?.v || "-"
+    numbers:   r.c[8]?.v || "-",
     jobNo:     r.c[9]?.v || ""
   }));
 
@@ -230,6 +230,7 @@ document.addEventListener("click", function (e) {
 
   status.classList.toggle("show");
 });
+
 
 
 
