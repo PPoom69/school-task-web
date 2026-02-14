@@ -122,6 +122,8 @@ function fetchFromSheet(gradeVal, roomVal, cacheKey){
 // ----------------------
 function render(rows){
 
+  function render(rows){
+
   taskList.innerHTML="";
   taskList.classList.remove("empty");
 
@@ -132,13 +134,15 @@ function render(rows){
   }
 
   let tasks = rows.map(r=>({
-    date: r.c[0]?.f || r.c[0]?.v,
-    title: r.c[1]?.v,
-    detail: r.c[2]?.v,
-    deadline: r.c[3]?.f || r.c[3]?.v,
+    date:      r.c[0]?.f || r.c[0]?.v || "-",
+    title:     r.c[1]?.v || "-",
+    detail:    r.c[2]?.v || "-",
+    deadline:  r.c[3]?.f || r.c[3]?.v || "-",
+    status:    r.c[4]?.v || "-",        // ✅ ดึงสถานะจากชีท
+    remain:    r.c[5]?.v || "",         // ✅ ดึงเหลือเวลา/เลยมา
     submitted: r.c[6]?.v ?? 0,
-    notSent: r.c[7]?.v ?? 0,
-    numbers: r.c[8]?.v ?? "-"
+    notSent:   r.c[7]?.v ?? 0,
+    numbers:   r.c[8]?.v || "-"
   }));
 
   tasks.sort((a,b)=>{
@@ -148,10 +152,8 @@ function render(rows){
   });
 
   tasks.forEach(task=>{
-    const today=new Date();
-    const deadline=new Date(task.deadline);
-    const diff=Math.ceil((deadline-today)/(1000*60*60*24));
-    const isLate=diff<0;
+
+    const isLate = task.status.includes("เกิน");
 
     const card=document.createElement("div");
     card.className="task-card";
@@ -159,10 +161,11 @@ function render(rows){
     card.innerHTML=`
       <div class="task-header">
         <span>วันที่ ${task.date}</span>
+
         <div class="status ${isLate?'status-late':'status-ok'}">
-          ${isLate?'⛔ เกินกำหนดส่ง':'✔ อยู่ในระยะเวลาส่ง'}
+          ${task.status}
           <span class="status-extra">
-            ${isLate?`เลยมา ${Math.abs(diff)} วัน`:`เหลืออีก ${diff} วัน`}
+            ${task.remain}
           </span>
         </div>
       </div>
@@ -186,3 +189,7 @@ function render(rows){
     taskList.appendChild(card);
   });
 }
+    taskList.appendChild(card);
+  });
+}
+
