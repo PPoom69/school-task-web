@@ -158,7 +158,9 @@ function render(rows) {
     return;
   }
 
-  let tasks = rows.map(r => ({
+  let tasks = rows
+  .slice(1) // 🔥 ตัดแถวหัวตารางออก
+  .map(r => ({
     date:      r.c[0]?.f || r.c[0]?.v || "-",
     title:     r.c[1]?.v || "-",
     detail:    r.c[2]?.v || "-",
@@ -230,6 +232,7 @@ document.addEventListener("click", function (e) {
 
   status.classList.toggle("show");
 });
+
 
 
 
