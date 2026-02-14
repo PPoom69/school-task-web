@@ -104,6 +104,15 @@ const card=document.createElement("div");
 card.className="task-card";
 
 card.innerHTML=`
+const notHeader = card.querySelector(".not-header");
+const notList = card.querySelector(".not-list");
+
+notList.style.display = "none";
+
+notHeader.addEventListener("click",()=>{
+  notList.style.display =
+    notList.style.display === "none" ? "block" : "none";
+});
 <div class="task-header">
 <span>วันที่ ${formatDate(task.date)}</span>
 <div class="status ${isLate?'status-late':'status-ok'}">
@@ -120,7 +129,13 @@ ${isLate?`เลยมา ${Math.abs(diff)} วัน`:`เหลืออีก
 <div class="task-info">
 <div>กำหนดส่ง: ${formatDate(task.deadline)}</div>
 <div>ส่งแล้ว: ${task.submitted} คน</div>
-<div>ยังไม่ส่ง: ${task.total-task.submitted} คน</div>
+<div class="not-submitted">
+  <div class="not-header">
+    ▶ ยังไม่ส่ง: ${task.total-task.submitted} คน
+  </div>
+  <div class="not-list">
+    เลขที่ 1, 2, 3
+  </div>
 </div>
 `;
 
@@ -136,3 +151,4 @@ function formatDate(dateStr){
 const d=new Date(dateStr);
 return d.toLocaleDateString("th-TH");
 }
+
