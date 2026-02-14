@@ -37,8 +37,21 @@ total:30
 
 grade.addEventListener("change",()=>{
 room.innerHTML='<option value="">เลือกห้อง</option>';
+
+if(!roomData[grade.value]){
 taskList.innerHTML="เลือกชั้นและห้องเพื่อแสดงงาน";
 taskList.classList.add("empty");
+return;
+}
+
+roomData[grade.value].forEach(r=>{
+const opt=document.createElement("option");
+opt.value=r;
+opt.textContent=r;
+room.appendChild(opt);
+});
+
+});
 
 if(!roomData[grade.value]) return;
 
@@ -151,4 +164,5 @@ function formatDate(dateStr){
 const d=new Date(dateStr);
 return d.toLocaleDateString("th-TH");
 }
+
 
