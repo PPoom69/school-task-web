@@ -172,11 +172,14 @@ select {
 
 /* BADGE */
 .status-badge {
-  font-size: 11px;
-  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
   border-radius: 999px;
+  font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
+  white-space: nowrap;
 }
 
 .status-ok {
@@ -210,3 +213,4 @@ select {
     grid-template-columns: 1fr 1fr;
   }
 }
+
