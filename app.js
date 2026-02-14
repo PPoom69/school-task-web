@@ -1,6 +1,14 @@
 // ==========================
 // CONFIG
 // ==========================
+const roomConfig = {
+  m1: 16,
+  m2: 15,
+  m3: 15,
+  m4: 10,
+  m5: 10,
+  m6: 10
+};
 
 const sheetMap = {
   m1: '1Mngj7eQ0y2Eq3n0LROrdRDD1x6lDQQOvNeh8GOD68gg',
@@ -37,26 +45,6 @@ gradeSelect.addEventListener("change", () => {
 
   const grade = gradeSelect.value;
   if (!grade) return;
-
-  const gradeNum = grade.replace("m", "");
-
-  const roomConfig = {
-  m1: 16,
-  m2: 15,
-  m3: 15,
-  m4: 10,
-  m5: 10,
-  m6: 10
-};
-
-gradeSelect.addEventListener("change", () => {
-  roomSelect.innerHTML = '<option value="">เลือกห้อง</option>';
-  taskList.classList.add("empty");
-  taskList.innerHTML = "เลือกชั้นและห้องเพื่อแสดงงาน";
-
-  const grade = gradeSelect.value;
-  if (!grade) return;
-
   const gradeNum = grade.replace("m", "");
   const maxRoom = roomConfig[grade];
 
@@ -212,4 +200,5 @@ function render(rows) {
     taskList.appendChild(card);
   });
 }
+
 
