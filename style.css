@@ -170,7 +170,7 @@ select:focus {
 
 /* วันที่ */
 .task-date {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 400;
   color: #9ca3af;
   white-space: nowrap;
@@ -196,25 +196,25 @@ select:focus {
 
 /* TITLE */
 .task-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 /* DETAIL */
 .task-detail {
-  font-size: 13px;
+  font-size: 16px;
   color: #555;
   margin-bottom: 10px;
 }
 
 /* INFO */
 .task-info {
-  font-size: 13px;
+  font-size: 14px;
   color: #444;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 /* FOOTER */
@@ -261,3 +261,4 @@ select:focus {
     transform: translateY(0);
   }
 }
+
