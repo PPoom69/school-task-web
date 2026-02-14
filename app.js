@@ -151,23 +151,3 @@ function renderTasksByPeriod(rows) {
     taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
   }
 }
-
-  if (!hasTask) {
-    taskList.classList.add('empty');
-    taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
-  }
-}
-
-  if (!hasTask) {
-    taskList.classList.add('empty');
-    taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
-  }
-}
-
-
-
-
-
-
-
-
