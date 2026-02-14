@@ -168,6 +168,7 @@ function render(rows) {
     submitted: r.c[6]?.v ?? 0,
     notSent:   r.c[7]?.v ?? 0,
     numbers:   r.c[8]?.v || "-"
+    jobNo:     r.c[9]?.v || ""
   }));
 
   tasks = tasks.filter(t => t.title !== "-");
@@ -201,7 +202,9 @@ function render(rows) {
       <div class="task-info">
         <div>กำหนดส่ง: ${task.deadline}</div>
         <div>ส่งแล้ว: ${task.submitted} คน</div>
-      </div>
+        <div class="job-number">
+  ${task.jobNo}
+</div>
 
       <details class="not-sent-box">
         <summary>ยังไม่ส่ง: ${task.notSent} คน</summary>
@@ -227,6 +230,7 @@ document.addEventListener("click", function (e) {
 
   status.classList.toggle("show");
 });
+
 
 
 
