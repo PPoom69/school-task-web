@@ -212,3 +212,16 @@ color:#555;
   background: #fee2e2;
   color: #b91c1c;
 }
+
+.task-card {
+  position: relative;
+}
+
+.job-number {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
