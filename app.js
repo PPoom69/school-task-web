@@ -13,7 +13,7 @@ body {
 
 .app-header {
   backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.75);
   border-bottom: 1px solid rgba(0,0,0,0.05);
   padding: 16px 20px;
   position: sticky;
@@ -63,7 +63,7 @@ select {
   padding: 14px;
   border-radius: 14px;
   border: none;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(10px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.05);
   font-size: 14px;
@@ -92,8 +92,7 @@ select {
 }
 
 .sort-btn {
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.8);
   border: none;
   padding: 6px 14px;
   border-radius: 999px;
@@ -107,7 +106,6 @@ select {
   right: 0;
   top: 110%;
   background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(20px);
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.12);
   display: none;
@@ -139,7 +137,7 @@ select {
 /* TASK CARD */
 
 .task-card {
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.8);
   backdrop-filter: blur(20px);
   border-radius: 22px;
   padding: 20px;
@@ -150,29 +148,39 @@ select {
 }
 
 .task-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow:
     0 20px 50px rgba(0,0,0,0.12),
     inset 0 1px 1px rgba(255,255,255,0.8);
 }
 
+/* HEADER INSIDE CARD */
+
 .task-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
-  font-size: 13px;
-  color: #6b7280;
+  flex-wrap: nowrap;        /* สำคัญ */
+  margin-bottom: 12px;
+  overflow: hidden;
 }
 
+.task-header span:first-child {
+  font-size: 13px;          /* ขนาดเท่ากำหนดส่ง */
+  color: #6b7280;
+  white-space: nowrap;      /* ห้ามตก */
+}
+
+/* TITLE + DETAIL */
+
 .task-title {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 .task-detail {
-  font-size: 14px;
+  font-size: 15px;
   color: #555;
   margin-bottom: 10px;
 }
@@ -188,10 +196,12 @@ select {
 /* STATUS BADGE */
 
 .status-badge {
-  font-size: 11px;
-  padding: 5px 12px;
+  font-size: 12px;
+  padding: 4px 10px;
   border-radius: 999px;
   font-weight: 600;
+  white-space: nowrap;   /* ห้ามตก */
+  flex-shrink: 0;        /* ห้ามโดนบีบ */
 }
 
 .status-ok {
