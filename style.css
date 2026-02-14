@@ -55,7 +55,7 @@ font-weight:600;
 /* SORT */
 .sort-wrapper{
   position: relative;
-  z-index: 1000;
+  z-index: 10;
 }
 .sort-btn{
 background:#eee;
@@ -75,7 +75,7 @@ font-size:13px;
   display:none;
   overflow:hidden;
   min-width:170px;
-  z-index: 9999;   /* 🔥 เพิ่มบรรทัดนี้ */
+  z-index: 20;   /* 🔥 เพิ่มบรรทัดนี้ */
 }
 .sort-menu div{
 padding:10px 14px;
@@ -230,5 +230,6 @@ color:#555;
   color: #9ca3af;
   font-weight: 500;
 }
+
 
 
