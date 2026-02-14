@@ -160,8 +160,11 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: nowrap;      /* ห้ามขึ้นบรรทัดใหม่ */
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #6b7280;
 }
+
 .task-title {
   font-size: 17px;
   font-weight: 600;
@@ -189,9 +192,6 @@ select {
   padding: 5px 12px;
   border-radius: 999px;
   font-weight: 600;
-
-  white-space: nowrap;   /* ห้ามตก */
-  flex-shrink: 0;        /* ห้ามโดนบีบ */
 }
 
 .status-ok {
@@ -235,4 +235,3 @@ select {
     grid-template-columns: 1fr 1fr;
   }
 }
-
