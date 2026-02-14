@@ -200,5 +200,15 @@ function render(rows) {
     taskList.appendChild(card);
   });
 }
+// ==========================
+// STATUS TOGGLE
+// ==========================
+
+document.addEventListener("click", function (e) {
+  const status = e.target.closest(".status");
+  if (!status) return;
+
+  status.classList.toggle("show");
+});
 
 
