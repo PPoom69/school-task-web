@@ -1,5 +1,5 @@
 // config
-
+const sortType = document.getElementById('sortType');
 // รหัส Google Sheets แยกตามชั้นค้าบบ
 const sheetMap = {
   m1: '1Mngj7eQ0y2Eq3n0LROrdRDD1x6lDQQOvNeh8GOD68gg',
@@ -103,11 +103,24 @@ function renderTasksByPeriod(rows) {
   
   let hasTask = false;
   
+const sortValue = sortType.value;
+
 rows.sort((a, b) => {
-  const deadlineA = new Date(a.c[3]?.v);
-  const deadlineB = new Date(b.c[3]?.v);
-  return deadlineA - deadlineB; // ใกล้สุดขึ้นก่อน
+
+  if (sortValue === "created") {
+    const dateA = new Date(a.c[0]?.v);
+    const dateB = new Date(b.c[0]?.v);
+    return dateA - dateB;
+  }
+
+  if (sortValue === "deadline") {
+    const deadlineA = new Date(a.c[3]?.v);
+    const deadlineB = new Date(b.c[3]?.v);
+    return deadlineA - deadlineB;
+  }
+
 });
+  sortType.addEventListener('change', loadTasks);
 
   rows.forEach(r => {
 
@@ -187,6 +200,7 @@ function toggleRemain(el) {
     }
   });
 }
+
 
 
 
