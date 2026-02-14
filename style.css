@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: 'Inter', 'Prompt', sans-serif;
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  background: #f1f5f9;
   min-height: 100vh;
 }
 
@@ -43,13 +43,14 @@ body {
 
 
 .app {
+  width: 100%;
   max-width: 900px;
-  margin: 60px auto;
-  padding: 40px;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(16px);
-  border-radius: 28px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+  margin: 40px auto;
+  padding: 32px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
 }
 
 
@@ -331,4 +332,41 @@ select {
 
 .sort-menu.show {
   display: block;
+}
+
+@media (max-width: 768px) {
+
+  .app {
+    margin: 16px;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+  }
+
+  .task-card {
+    border-radius: 16px;
+    padding: 16px;
+  }
+
+  .section-header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+}
+.task-card {
+  transition: all 0.2s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
 }
