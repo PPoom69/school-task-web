@@ -101,7 +101,11 @@ function renderTasksByPeriod(rows) {
   taskList.innerHTML = '';
   taskList.classList.remove('empty');
 
-  let hasTask = false;
+rows.sort((a, b) => {
+  const deadlineA = new Date(a.c[3]?.v);
+  const deadlineB = new Date(b.c[3]?.v);
+  return deadlineA - deadlineB; // ใกล้สุดขึ้นก่อน
+});
 
   rows.forEach(r => {
 
@@ -181,4 +185,5 @@ function toggleRemain(el) {
     }
   });
 }
+
 
