@@ -100,7 +100,9 @@ function fetchFromSheet(grade, room, cacheKey) {
 function renderTasksByPeriod(rows) {
   taskList.innerHTML = '';
   taskList.classList.remove('empty');
-
+  
+  let hasTask = false;
+  
 rows.sort((a, b) => {
   const deadlineA = new Date(a.c[3]?.v);
   const deadlineB = new Date(b.c[3]?.v);
@@ -185,5 +187,6 @@ function toggleRemain(el) {
     }
   });
 }
+
 
 
