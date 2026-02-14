@@ -1,5 +1,4 @@
-// ================= CONFIG =================
-
+// config
 const sheetMap = {
   m1: '1Mngj7eQ0y2Eq3n0LROrdRDD1x6lDQQOvNeh8GOD68gg',
   m2: '14EdjUixaiDpaSvM7KV0gLWtDPWKyyfWMD12rFr94TnA',
@@ -9,33 +8,30 @@ const sheetMap = {
   m6: '1nW8v1EwVRUPzLxBvNF3ec50mr9zwqoQnI3YZSsCdpdY'
 };
 
+const CACHE_TTL = 5 * 60 * 1000;
 let currentSort = "deadline";
-let currentRows = []; // 🔥 เก็บข้อมูลล่าสุดไว้ sort ใหม่ได้ทันที
 
-const gradeSelect = document.getElementById("grade");
-const roomSelect  = document.getElementById("room");
-const taskList    = document.getElementById("taskList");
-const sortBtn     = document.getElementById("sortBtn");
-const sortMenu    = document.getElementById("sortMenu");
+const gradeSelect = document.getElementById('grade');
+const roomSelect  = document.getElementById('room');
+const taskList    = document.getElementById('taskList');
 
 
-// ================= ROOM SELECT =================
+// เปลี่ยนชั้น
+gradeSelect.addEventListener('change', () => {
 
-gradeSelect.addEventListener("change", () => {
-
-  roomSelect.innerHTML = `<option value="">เลือกห้อง</option>`;
-  taskList.innerHTML = "เลือกชั้นและห้องเพื่อแสดงงาน";
-  taskList.classList.add("empty");
+  roomSelect.innerHTML = '<option value="">เลือกห้อง</option>';
+  taskList.classList.add('empty');
+  taskList.innerHTML = 'เลือกชั้นและห้องเพื่อแสดงงาน';
 
   const grade = gradeSelect.value;
   if (!grade) return;
 
-  const gradeNum = grade.replace("m", "");
+  const gradeNum = grade.replace('m', '');
 
   const maxRoom =
-    grade === "m1" ? 16 :
-    grade === "m2" ? 15 :
-    grade === "m3" ? 15 : 10;
+    grade === 'm1' ? 16 :
+    grade === 'm2' ? 15 :
+    grade === 'm3' ? 15 : 10;
 
   for (let i = 1; i <= maxRoom; i++) {
     roomSelect.innerHTML += `
@@ -44,55 +40,74 @@ gradeSelect.addEventListener("change", () => {
       </option>
     `;
   }
-
 });
 
-roomSelect.addEventListener("change", loadTasks);
+roomSelect.addEventListener('change', loadTasks);
 
 
-// ================= LOAD DATA =================
-
+// โหลดงาน
 function loadTasks() {
 
   const grade = gradeSelect.value;
   const room  = roomSelect.value;
-
   if (!grade || !room) return;
 
-  taskList.innerHTML = "กำลังโหลดข้อมูล...";
-  taskList.classList.add("empty");
+  const cacheKey = `tasks_${grade}_${room}`;
+  const cached = localStorage.getItem(cacheKey);
 
-  const url =
-    `https://docs.google.com/spreadsheets/d/${sheetMap[grade]}/gviz/tq?tqx=out:json&sheet=${room}`;
+  if (cached) {
+    const data = JSON.parse(cached);
+    if (Date.now() - data.time < CACHE_TTL) {
+      renderTasksByPeriod(data.rows);
+      return;
+    }
+  }
+
+  fetchFromSheet(grade, room, cacheKey);
+}
+
+
+// ดึงชีท
+function fetchFromSheet(grade, room, cacheKey) {
+
+  taskList.classList.add('empty');
+  taskList.innerHTML = 'กำลังโหลดข้อมูล...';
+
+  const url = `https://docs.google.com/spreadsheets/d/${sheetMap[grade]}/gviz/tq?tqx=out:json&sheet=${room}`;
 
   fetch(url)
     .then(res => res.text())
     .then(text => {
 
       const json = JSON.parse(text.substring(47).slice(0, -2));
-      currentRows = json.table.rows || [];
+      const rows = json.table.rows || [];
 
-      renderTasks();
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+          time: Date.now(),
+          rows
+        })
+      );
 
+      renderTasksByPeriod(rows);
     })
     .catch(() => {
-      taskList.innerHTML = "ไม่สามารถโหลดข้อมูลได้";
+      taskList.classList.add('empty');
+      taskList.innerHTML = 'ไม่สามารถโหลดข้อมูลได้';
     });
-
 }
 
 
-// ================= SORT + RENDER =================
+// แสดงงาน
+function renderTasksByPeriod(rows) {
 
-function renderTasks() {
+  taskList.innerHTML = '';
+  taskList.classList.remove('empty');
 
-  if (!currentRows.length) {
-    taskList.innerHTML = "ยังไม่มีงานในห้องนี้";
-    return;
-  }
+  let hasTask = false;
 
-  // 🔥 sort ก่อน render
-  const sorted = [...currentRows].sort((a, b) => {
+  rows.sort((a, b) => {
 
     const deadlineA = new Date(a.c[3]?.v);
     const deadlineB = new Date(b.c[3]?.v);
@@ -103,48 +118,94 @@ function renderTasks() {
     return currentSort === "deadline"
       ? deadlineA - deadlineB
       : dateA - dateB;
-
   });
 
-  taskList.innerHTML = "";
-  taskList.classList.remove("empty");
+  rows.forEach(r => {
 
-  sorted.forEach(r => {
+    const date      = r.c[0]?.f || r.c[0]?.v || '-';
+    const taskName  = r.c[1]?.v || '-';
+    const detail    = r.c[2]?.v || '-';
+    const deadline  = r.c[3]?.f || r.c[3]?.v || '-';
+    const status    = r.c[4]?.v || '';
+    const remain    = r.c[5]?.v || '';
+    const sent      = r.c[6]?.v ?? 0;
+    const notSent   = r.c[7]?.v ?? 0;
+    const numbers   = r.c[8]?.v || '-';
 
-    const date     = r.c[0]?.f || "-";
-    const name     = r.c[1]?.v || "-";
-    const detail   = r.c[2]?.v || "-";
-    const deadline = r.c[3]?.f || "-";
-    const status   = r.c[4]?.v || "";
-    const sent     = r.c[6]?.v ?? 0;
-    const notSent  = r.c[7]?.v ?? 0;
+    if (!taskName || taskName === '-') return;
+
+    hasTask = true;
 
     taskList.innerHTML += `
       <div class="task-card">
 
         <div class="task-header">
           <span>วันที่ ${date}</span>
-          <span class="status-badge">${status}</span>
+
+          <span class="status-badge"
+                data-remain="${remain}"
+                onclick="toggleRemain(this)">
+            ${status}
+          </span>
         </div>
 
-        <div class="task-title">${name}</div>
+        <div class="task-title">${taskName}</div>
         <div class="task-detail">${detail}</div>
 
         <div class="task-info">
           <span>กำหนดส่ง: ${deadline}</span>
           <span>ส่งแล้ว: ${sent} คน</span>
-          <span>ยังไม่ส่ง: ${notSent} คน</span>
         </div>
+
+        <details class="not-sent-box">
+          <summary>ยังไม่ส่ง: ${notSent} คน</summary>
+          <div class="not-sent-list">
+            ${numbers}
+          </div>
+        </details>
 
       </div>
     `;
-
   });
 
+  if (!hasTask) {
+    taskList.classList.add('empty');
+    taskList.innerHTML = 'ยังไม่มีงานในห้องนี้';
+  }
 }
 
 
-// ================= SORT DROPDOWN =================
+// popup เหลือกี่วัน
+function toggleRemain(el) {
+
+  const oldPopup = document.querySelector('.remain-popup');
+  if (oldPopup) oldPopup.remove();
+
+  const text = el.dataset.remain;
+  if (!text || text === '-') return;
+
+  const popup = document.createElement('div');
+  popup.className = 'remain-popup';
+  popup.innerText = text;
+
+  el.appendChild(popup);
+
+  setTimeout(() => {
+    popup.classList.add('show');
+  }, 10);
+
+  document.addEventListener('click', function handler(e) {
+    if (!popup.contains(e.target) && e.target !== el) {
+      popup.remove();
+      document.removeEventListener('click', handler);
+    }
+  });
+}
+
+
+// SORT
+const sortBtn = document.getElementById("sortBtn");
+const sortMenu = document.getElementById("sortMenu");
 
 sortBtn.addEventListener("click", () => {
   sortMenu.classList.toggle("show");
@@ -158,8 +219,7 @@ sortMenu.querySelectorAll("div").forEach(item => {
     sortBtn.innerText = item.innerText + " ▾";
     sortMenu.classList.remove("show");
 
-    renderTasks(); // 🔥 ไม่ fetch ใหม่ แค่ sort ใหม่
-
+    loadTasks(); // เรียงใหม่
   });
 
 });
