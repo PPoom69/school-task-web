@@ -162,29 +162,28 @@ select:focus {
 /* HEADER INSIDE CARD */
 .task-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: nowrap;        /* ❗ ห้ามตกบรรทัด */
 }
 
 /* วันที่ */
 .task-date {
-  font-size: 6px;
-  font-weight: 400;
+  font-size: 11px;
   color: #9ca3af;
   white-space: nowrap;
-  flex-shrink: 0;
+  flex-shrink: 0;           /* ❗ ห้ามโดนบีบ */
 }
-
 /* สถานะ */
 .status-badge {
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-  flex-shrink: 0;
+  font-size: 13px;
+  white-space: nowrap;       /* ❗ ห้ามขึ้นบรรทัดใหม่ */
+  overflow: hidden;          /* ❗ กันล้น */
+  text-overflow: ellipsis;   /* ถ้ายาวเกินให้ ... */
+  max-width: 65%;            /* ❗ จำกัดความกว้าง */
+  text-align: right;
 }
-
 /* สีสถานะ */
 .status-ok {
   color: #16a34a;
@@ -261,5 +260,6 @@ select:focus {
     transform: translateY(0);
   }
 }
+
 
 
