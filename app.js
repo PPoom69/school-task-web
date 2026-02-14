@@ -158,9 +158,7 @@ function render(rows) {
     return;
   }
 
-  let tasks = rows
-  .slice(1) // 🔥 ตัดแถวหัวตารางออก
-  .map(r => ({
+  let tasks = rows.map(r => ({
     date:      r.c[0]?.f || r.c[0]?.v || "-",
     title:     r.c[1]?.v || "-",
     detail:    r.c[2]?.v || "-",
@@ -173,7 +171,11 @@ function render(rows) {
     jobNo:     r.c[9]?.v || ""
   }));
 
-  tasks = tasks.filter(t => t.title !== "-");
+  tasks = tasks.filter(t =>
+  t.title &&
+  t.title !== "-" &&
+  t.title !== "วิชา"
+);
 
   tasks.sort((a,b)=>{
   return currentSort === "deadline"
@@ -232,7 +234,6 @@ document.addEventListener("click", function (e) {
 
   status.classList.toggle("show");
 });
-
 
 
 
