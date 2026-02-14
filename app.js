@@ -176,6 +176,11 @@ function render(rows) {
   t.title !== "-" &&
   t.title !== "วิชา"
 );
+  if (tasks.length === 0) {
+  taskList.innerHTML = "ห้องนี้ยังไม่มีงาน";
+  taskList.classList.add("empty");
+  return;
+  }
 
   tasks.sort((a,b)=>{
   return currentSort === "deadline"
@@ -234,6 +239,7 @@ document.addEventListener("click", function (e) {
 
   status.classList.toggle("show");
 });
+
 
 
 
