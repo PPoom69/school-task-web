@@ -166,8 +166,8 @@ select:focus {
   gap: 10px;
 }
 .task-date {
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 7px;
+  font-weight: 300;
   color: #9ca3af;
   letter-spacing: 0.2px;
 }
@@ -250,6 +250,7 @@ select:focus {
     transform: translateY(0);
   }
 }
+
 
 
 
