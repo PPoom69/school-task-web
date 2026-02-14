@@ -53,7 +53,10 @@ font-weight:600;
 }
 
 /* SORT */
-.sort-wrapper{position:relative}
+.sort-wrapper{
+  position: relative;
+  z-index: 1000;
+}
 .sort-btn{
 background:#eee;
 border:none;
@@ -63,15 +66,16 @@ cursor:pointer;
 font-size:13px;
 }
 .sort-menu{
-position:absolute;
-right:0;
-top:120%;
-background:#fff;
-border-radius:12px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-display:none;
-overflow:hidden;
-min-width:170px;
+  position:absolute;
+  right:0;
+  top:120%;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  display:none;
+  overflow:hidden;
+  min-width:170px;
+  z-index: 9999;   /* 🔥 เพิ่มบรรทัดนี้ */
 }
 .sort-menu div{
 padding:10px 14px;
@@ -226,4 +230,5 @@ color:#555;
   color: #9ca3af;
   font-weight: 500;
 }
+
 
